@@ -38,13 +38,7 @@ def get_call_back(call):
                          text = f'Выбери класс, {user_name}!',
                          reply_markup = markup)
         
-
+#ntcnjdjt bpvtytybt
 
  
-
-        
-
-
-
-
 bot.polling(non_stop=True)
