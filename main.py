@@ -16,8 +16,10 @@ def start_command(message):
     markup = keyboard.start_game()
     bot.send_message(user_id, text_message, reply_markup = markup)
 
-@bot.callback_query_handler(func=lambda call: True)
+@bot.callback_query_handler(func=lambda call: True) #декоратор срабатывает после нажатия inline кнопки
 def get_call_back(call):
+    global user_name, user_hp, user_dmg, user_race, user_class
+
     user_id = call.from_user.id
     user_name = call.from_user.first_name
     message_id = call.message.message_id
@@ -29,14 +31,26 @@ def get_call_back(call):
                           reply_markup = markup)
     elif call.data in data.races: #сообщение с подтверждением расы
         markup = keyboard.raceback_kb()
+        user_race = call.data
+        user_hp = data.race_hp[call.data]
+        user_dmg = data.race_dmg[call.data]
         bot.send_message(chat_id = user_id, 
-                         text = f'Твоя раса: {call.data}, здоровье: {data.race_hp[call.data]}, урон: {data.race_dmg[call.data]}.',
+                         text = f'Твоя раса: {user_race}, здоровье: {user_hp}, урон: {user_dmg}.',
                          reply_markup = markup)
     if call.data == 'choose_class': #выбор класса
         markup = keyboard.class_kb()
         bot.send_message(chat_id = user_id, 
                          text = f'Выбери класс, {user_name}!',
                          reply_markup = markup)
+    elif call.data in data.classes:
+        markup = keyboard.confrim_start()
+        user_class = call.data
+        user_hp = data.class_hp[call.data] + data.race_hp[user_race]
+        user_dmg = data.class_dmg[call.data] + data.race_dmg[user_race]
+        bot.send_message(chat_id = user_id, 
+                         text = f'Твой класс: {user_class}, здоровье: {user_hp}, урон: {user_dmg}.',
+                         reply_markup = markup)
+
         
 
 
