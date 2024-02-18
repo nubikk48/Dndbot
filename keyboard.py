@@ -43,4 +43,12 @@ def confrim_start():
     markup.add(btn3)
     return markup
 
+def begining_fght():
+    markup = InlineKeyboardMarkup()
+    btn1 = InlineKeyboardButton(text = 'Начать сражение🩸', callback_data = 'fight')
+    btn2 = InlineKeyboardButton(text = 'Отказаться😨', callback_data = 'confrim_start')
+    markup.add(btn1)
+    markup.add(btn2)
+    return markup
+
 

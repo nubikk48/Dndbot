@@ -1,7 +1,9 @@
 import telebot
 import data
 import keyboard
+from functions import create_monster
 import random
+import time
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 bot = telebot.TeleBot('6459858653:AAFGB9cj7PY9wiKGtIFEZfTtqLAvxb8PrD8') #подключение к боту
@@ -35,7 +37,7 @@ def get_call_back(call):
         user_hp = data.race_hp[call.data]
         user_dmg = data.race_dmg[call.data]
         bot.send_message(chat_id = user_id, 
-                         text = f'Твоя раса: {user_race}, здоровье: {user_hp}, урон: {user_dmg}.',
+                         text = f'Твоя раса: {user_race}, здоровье❤️: {user_hp}, урон💪: {user_dmg}.',
                          reply_markup = markup)
     if call.data == 'choose_class': #выбор класса
         markup = keyboard.class_kb()
@@ -48,8 +50,18 @@ def get_call_back(call):
         user_hp = data.class_hp[call.data] + data.race_hp[user_race]
         user_dmg = data.class_dmg[call.data] + data.race_dmg[user_race]
         bot.send_message(chat_id = user_id, 
-                         text = f'Твой класс: {user_class}, здоровье: {user_hp}, урон: {user_dmg}.',
+                         text = f'Твой класс: {user_class}, здоровье❤️: {user_hp}, урон💪: {user_dmg}.',
                          reply_markup = markup)
+    if call.data == 'confrim_start' : #начало игры
+        markup = keyboard.begining_fght()
+        monster_name, monster_dmg, monster_hp = create_monster()
+        bot.send_message(chat_id = user_id, 
+                         text = f'На своём пути ты встретил монстра👹:  {monster_name}, здоровье: {monster_hp}, урон: {monster_dmg}!\nЖелаешь ли ты сразиться?',
+                         reply_markup = markup)
+    if call.data == 'fight':
+        
+    
+        
 
         
 
