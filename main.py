@@ -4,6 +4,7 @@ import keyboard
 from functions import create_monster
 import random
 import time
+import functions
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton, InlineKeyboardMarkup, InlineKeyboardButton
 
 bot = telebot.TeleBot('6459858653:AAFGB9cj7PY9wiKGtIFEZfTtqLAvxb8PrD8') #подключение к боту
@@ -20,7 +21,7 @@ def start_command(message):
 
 @bot.callback_query_handler(func=lambda call: True) #декоратор срабатывает после нажатия inline кнопки
 def get_call_back(call):
-    global user_name, user_hp, user_dmg, user_race, user_class
+    global user_name, user_hp, user_dmg, user_race, user_class, monster_name, monster_dmg, monster_hp, monster_count
 
     user_id = call.from_user.id
     user_name = call.from_user.first_name
@@ -49,6 +50,7 @@ def get_call_back(call):
         user_class = call.data
         user_hp = data.class_hp[call.data] + data.race_hp[user_race]
         user_dmg = data.class_dmg[call.data] + data.race_dmg[user_race]
+        monster_count = 0
         bot.send_message(chat_id = user_id, 
                          text = f'Твой класс: {user_class}, здоровье❤️: {user_hp}, урон💪: {user_dmg}.',
                          reply_markup = markup)
@@ -59,6 +61,9 @@ def get_call_back(call):
                          text = f'На своём пути ты встретил монстра👹:  {monster_name}, здоровье: {monster_hp}, урон: {monster_dmg}!\nЖелаешь ли ты сразиться?',
                          reply_markup = markup)
     if call.data == 'fight':
+        user_hp, message_text, markup, monster_count = functions.fighting(user_hp, user_dmg, monster_hp, monster_dmg, monster_count)
+        bot.send_message(chat_id = user_id, text = message_text, reply_markup = markup)
+        
         
     
         

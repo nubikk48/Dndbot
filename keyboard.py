@@ -51,4 +51,20 @@ def begining_fght():
     markup.add(btn2)
     return markup
 
+def game_over():
+    markup = InlineKeyboardMarkup()
+    btn1 = InlineKeyboardButton(text = 'Начать сначала?', callback_data = 'start_game')
+    markup.add(btn1)
+    return markup
+def win():
+    markup = InlineKeyboardMarkup()
+    btn1 = InlineKeyboardButton(text = 'Продолжить приключение?', callback_data = 'confrim_start')
+    btn2 = InlineKeyboardButton(text ='Закончить приключение', callback_data = 'start_game')
+    markup.add(btn1)
+    markup.add(btn2)
+    return markup
+
+
+
+
 
